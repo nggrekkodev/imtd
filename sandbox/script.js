@@ -59,13 +59,19 @@ loadFile(response => {
   });
 
   // Add a marker for each feature
-  L.geoJson(data, {
+  const markers = L.geoJson(data, {
     pointToLayer: (feature, latlng) => {
       let marker = L.marker(latlng, { icon: customMarker });
       marker.bindPopup(feature.properties.name);
       return marker;
     }
-  }).addTo(state.mymap);
+  });
+  // }).addTo(state.mymap);
+
+  // Cluster Group
+  const clusters = L.markerClusterGroup();
+  clusters.addLayer(markers);
+  state.mymap.addLayer(clusters);
 }, dataMarker);
 
 // Load data_zone file
@@ -80,7 +86,7 @@ loadFile(response => {
       marker.bindPopup(feature.properties.name);
       return marker;
     },
-    onEachFeature: function(feature, layer) {
+    onEachFeature: (feature, layer) => {
       layer.bindPopup(`<strong>Zone ${feature.properties.name}</strong><br/>`);
     }
   }).addTo(state.mymap);
