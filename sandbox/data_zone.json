@@ -51,7 +51,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "IMTD & IAE"
+        "name": "imtd"
       },
       "geometry": {
         "type": "Polygon",

@@ -47,6 +47,9 @@ const mapLayerOptions = {
 
 initializeLayer(mapURI, mapLayerOptions);
 
+/**
+ * MARKER
+ */
 // Load data_marker file
 loadFile(response => {
   data = JSON.parse(response);
@@ -74,6 +77,9 @@ loadFile(response => {
   state.mymap.addLayer(clusters);
 }, dataMarker);
 
+/**
+ * LAYER
+ */
 // Load data_zone file
 loadFile(response => {
   data = JSON.parse(response);
@@ -88,6 +94,22 @@ loadFile(response => {
     },
     onEachFeature: (feature, layer) => {
       layer.bindPopup(`<strong>Zone ${feature.properties.name}</strong><br/>`);
+    },
+    style: (feature, layer) => {
+      let weight = 1;
+      let fillOpacity = 0.5;
+      let color, fillColor;
+      if (feature.properties.name === 'uphf') {
+        color = '#27f6e5';
+        fillColor = '#99fbf3';
+      } else if (feature.properties.name === 'transalley') {
+        color = '#ff7b02';
+        fillColor = '#ffa757';
+      } else {
+        color = '#627aff';
+        fillColor = '#c8d0ff';
+      }
+      return { color: color, weight: weight, fillColor: fillColor, fillOpacity: fillOpacity };
     }
   }).addTo(state.mymap);
 }, dataZone);
