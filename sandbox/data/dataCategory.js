@@ -1,14 +1,24 @@
+import { dataAll } from './data.js';
+
+export const getCategoriesFromData = () => {
+  const categories = new Set();
+  dataAll.features.forEach(feature => {
+    categories.add(feature.properties.category);
+  });
+  return Array.from(categories);
+};
+
 export const dataCategory = [
   {
-    id: 1,
+    id: 'lab',
     name: 'Labo'
   },
   {
-    id: 2,
+    id: 'company',
     name: 'Entreprise'
   },
   {
-    id: 3,
+    id: 'education',
     name: 'Formation'
   }
 ];

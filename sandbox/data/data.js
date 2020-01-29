@@ -1,3 +1,6 @@
+// import { dataMarker } from './dataMarker';
+// import { dataZone } from './dataZone';
+
 export const dataLab = {
   type: 'FeatureCollection',
   features: [
@@ -9,7 +12,8 @@ export const dataLab = {
       },
       properties: {
         name: 'Labo 1',
-        id: 'Labo 1'
+        id: '1',
+        category: 'laboratoire'
       }
     },
     {
@@ -20,7 +24,8 @@ export const dataLab = {
       },
       properties: {
         name: 'Labo 2',
-        id: 'Labo 2'
+        id: '2',
+        category: 'laboratoire'
       }
     }
   ]
@@ -37,7 +42,8 @@ export const dataEducation = {
       },
       properties: {
         name: 'Formation  1',
-        id: 'Formation  1'
+        id: '1',
+        category: 'formation'
       }
     },
     {
@@ -48,7 +54,8 @@ export const dataEducation = {
       },
       properties: {
         name: 'Formation  2',
-        id: 'Formation  2'
+        id: '2',
+        category: 'formation'
       }
     }
   ]
@@ -65,7 +72,8 @@ export const dataCompany = {
       },
       properties: {
         name: 'Entreprise  1',
-        id: 'Entreprise  1'
+        id: '1',
+        category: 'entreprise'
       }
     },
     {
@@ -76,8 +84,14 @@ export const dataCompany = {
       },
       properties: {
         name: 'Entreprise  2',
-        id: 'Entreprise  2'
+        id: '2',
+        category: 'entreprise'
       }
     }
   ]
+};
+
+export const dataAll = {
+  type: 'FeatureCollection',
+  features: [...dataLab.features, ...dataEducation.features, ...dataCompany.features]
 };

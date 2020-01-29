@@ -26,6 +26,8 @@ Marker Cluster :  https://github.com/Leaflet/Leaflet.markercluster
 
 Marker Cluster CDN :  https://cdnjs.com/libraries/leaflet.markercluster 
 
+Templatic map icons :  https://templatic.com/newsblog/100-free-templatic-map-icons/
+
 
 
 
@@ -45,3 +47,9 @@ https://stackoverflow.com/questions/58270663/samesite-warning-chrome-77
 https://stackoverflow.com/questions/54590951/uncaught-syntaxerror-the-requested-module-add-js-does-not-provide-an-export 
 
 https://www.sitepoint.com/understanding-es6-modules/ 
+
+
+
+## Fusion de tableaux
+
+Utiliser le nouvel opérateur spread :  https://howchoo.com/g/mzbmyzi2zda/how-to-merge-two-arrays-in-javascript 
