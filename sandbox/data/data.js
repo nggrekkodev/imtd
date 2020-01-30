@@ -27,6 +27,18 @@ export const dataLab = {
         id: '2',
         category: 'laboratoire'
       }
+    },
+    {
+      type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates: [3.509652, 50.332324]
+      },
+      properties: {
+        name: 'Labo 3',
+        id: '2',
+        category: 'laboratoire'
+      }
     }
   ]
 };

@@ -1,5 +1,5 @@
 export class LeafletMap {
-  constructor(mapHtmlId, lat, lon, zoom, dataset, categories, dataCategory) {
+  constructor(mapHtmlId, lat, lon, zoom, dataset, categories, dataCategory, dataCity) {
     this.mapHtmlId = mapHtmlId;
     this.lat = lat;
     this.lon = lon;
@@ -7,11 +7,12 @@ export class LeafletMap {
     this.dataset = dataset;
     this.categories = categories;
     this.dataCategory = dataCategory;
+    this.dataCity = dataCity;
     this.map = {}; // leaflet map object
-    this.markers = {}; // contains all marker layers
+    // this.markers = {}; // contains all marker layers
     // this.layers = []; // contains all marker layers
     this.layers = {}; // contains all marker layers
-    this.searchName = '';
+    // this.searchName = '';
   }
 
   // Init map view
@@ -40,7 +41,6 @@ export class LeafletMap {
     const context = this;
     this.customMarkers = L.geoJson(data, {
       pointToLayer: (feature, latlng) => {
-        // const marker = L.marker(latlng);
         const marker = L.marker(latlng, { icon: context.customMarkerIcon });
         marker.bindPopup(feature.properties.name);
         return marker;
@@ -88,69 +88,58 @@ export class LeafletMap {
 
   // Initialize the filter control
   initializeCommand() {
-    // this.categories = categories;
-    // console.log(this.categories);
-    const map = this.map;
+    // const map = this.map;
 
     this.command = L.control({ position: 'topright' });
-
-    this.command.onAdd = map => {
-      var div = L.DomUtil.create('div', 'command');
+    this.command.onAdd = () => {
+      let div = L.DomUtil.create('div', 'command');
       div.innerHTML += '<div style="text-align:center;"><span style="font-size:18px;">Filtre</span><br /></div>';
 
       this.categories.forEach(category => {
-        div.innerHTML += `<form><input id='cb-${category}' type="checkbox"/>${category}`;
+        div.innerHTML += `<form><input id='cb-${category}' type="checkbox" checked/>${category}</form>`;
       });
 
-      div.innerHTML += `<input id='searchBar' type="text" name="searchBar" value=""></form>`;
+      div.innerHTML += `<input id='searchBar' type="text" name="searchBar" value=""><br/>`;
+      // div.innerHTML += `<select name="city">`;
+      // for (const feature of this.dataCity.features) {
+      //   div.innerHTML += `<option value="t">t2</option>`;
+      // }
+      // this.dataCity.features.forEach(city => {
+      // console.log(city);
+      // div.innerHTML += `<option value="${this.dataCity.features[0].properties.name}">${this.dataCity.features[0].properties.name}</option>`;
+      // });
+      // <option value="volvo">Volvo</option>
+      // <option value="saab">Saab</option>
+      // <option value="fiat">Fiat</option>
+      // <option value="audi">Audi</option>
+      // div.innerHTML += `</select>`;
+
+      // div.innerHTML += `<input list="browsers"><datalist id="browsers">`;
+      // this.dataCity.features.forEach(city => {
+      //   div.innerHTML += `<option value="${city.properties.name.toLowerCase()}">`;
+      // });
+      // div.innerHTML += `</datalist></form>`;
 
       return div;
     };
 
-    this.command.addTo(map);
+    this.command.addTo(this.map);
 
-    console.log(this.categories);
+    const htmlCommand = document.querySelector('.command');
+    htmlCommand.addEventListener('mouseenter', () => this.map.dragging.disable(), false);
+    htmlCommand.addEventListener('mouseleave', () => this.map.dragging.enable(), false);
 
-    // const context = this;
-    // this.categories.forEach(category => {
-    //   document.getElementById(`cb-${category}`).addEventListener(
-    //     'click',
-    //     e => {
-    //       // console.log(e);
-    //       const checked = event.target.checked;
-    //       const cat = event.target.id.slice(3);
+    // console.log(this.categories);
 
-    //       if (category === cat && checked) {
-    //         // display marker de cette catégorie
-    //         this.displayMarkers(category);
-    //       } else if (category === cat && !checked) {
-    //         // hide marker de cette catégorie
-    //         this.hideMarkers(category);
-    //       }
-    //     },
-    //     false
-    //   );
-    // });
-    const context = this;
     this.dataCategory.forEach(category => {
       document.getElementById(`cb-${category.name}`).addEventListener('click', () => this.filter(), false);
     });
     const searchBar = document.querySelector('#searchBar');
     searchBar.addEventListener('input', () => this.filter(), false); // this == context
-    // searchBar.addEventListener('input', this.filter, false); // param = event
-    // searchBar.addEventListener(
-    //   'input',
-    //   context => {
-    //     console.log('ok');
-    //   },
-    //   false
-    // );
   }
 
   filter() {
-    // Get Input text
     this.inputText = document.querySelector('#searchBar').value;
-    console.log(this.inputText);
 
     // Get Selected categories in array
     this.selectedCategories = [];
@@ -159,12 +148,9 @@ export class LeafletMap {
         this.selectedCategories.push(category.name);
       }
     });
-    // console.log(this.selectedCategories);
 
     this.displayMarkers();
   }
-
-  // displayMarkers2() {}
 
   displayMarkers() {
     this.map.removeLayer(this.layers);
@@ -189,44 +175,18 @@ export class LeafletMap {
 
         const marker = L.marker(latlng, { icon: iconMarker });
         marker.bindPopup(feature.properties.name);
+        marker.on('mouseover', function(e) {
+          this.openPopup();
+        });
+        marker.on('mouseout', function(e) {
+          this.closePopup();
+        });
         return marker;
       }
     });
 
     this.layers.addTo(this.map);
   }
-  // displayMarkers(category) {
-  //   console.log('display ' + category);
-  //   // this.markers.category = this.getGeoJsonFeaturesByCategory(category);
-  //   this.markers.category = this.getGeoJsonFeaturesByFilter();
-  //   const context = this;
-  //   // let icon = '/sandbox/images/icon/automotive.png';
-  //   // console.log(category == 'laboratoire');
-  //   // console.log('laboratoire');
-  //   let icon;
-  //   if (category == 'laboratoire') {
-  //     icon = '/sandbox/images/icon/science.png';
-  //   } else if (category == 'formation') {
-  //     icon = '/sandbox/images/icon/schools.png';
-  //   } else if (category == 'entreprise') {
-  //     icon = '/sandbox/images/icon/engineering.png';
-  //   }
-
-  //   const iconMarker = L.icon({
-  //     iconUrl: icon,
-  //     iconSize: [33, 44]
-  //   });
-
-  //   this.layers[category] = L.geoJson(this.markers.category, {
-  //     pointToLayer: (feature, latlng) => {
-  //       const marker = L.marker(latlng, { icon: iconMarker });
-  //       marker.bindPopup(feature.properties.name);
-  //       return marker;
-  //     }
-  //   });
-
-  //   this.layers[category].addTo(this.map);
-  // }
 
   hideMarkers(category) {
     console.log('hide ' + category);

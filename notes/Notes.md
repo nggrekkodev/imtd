@@ -1,8 +1,7 @@
 # A discuter
 
-Présenter : 
-
 - Les différentes couches/cartes :  https://leaflet-extras.github.io/leaflet-providers/preview/ 
+- Service payant pour 
 
 
 
@@ -46,11 +45,17 @@ https://stackoverflow.com/questions/58270663/samesite-warning-chrome-77
 
 
 
-## Es6 import/export
+## Impossible d'importer un module : Es6 import/export
 
 https://stackoverflow.com/questions/54590951/uncaught-syntaxerror-the-requested-module-add-js-does-not-provide-an-export 
 
 https://www.sitepoint.com/understanding-es6-modules/ 
+
+il faut préciser type="module" dans la balise du script
+
+```html
+<script type="module" src="app.js"></script>
+```
 
 
 
@@ -69,3 +74,9 @@ Utiliser l'opérateur spread
 ## Accéder à 'this' en arrow function avec un event handler
 
  https://medium.com/@photokandy/til-you-can-pass-an-object-instead-of-a-function-to-addeventlistener-7838a3c4ec62 
+
+
+
+## Calcul de distance entre deux coordonnées
+
+ https://www.geodatasource.com/developers/javascript 

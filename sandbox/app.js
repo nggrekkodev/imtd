@@ -5,12 +5,13 @@ import { dataMarker } from './data/dataMarker.js';
 import { dataZone } from './data/dataZone.js';
 import { dataAll, dataLab, dataCompany, dataEducation } from './data/data.js';
 import { dataCategory, getCategoriesFromData } from './data/dataCategory.js';
+import { dataCity } from './data/dataCity.js';
 import { LeafletMap } from './model/LeafletMap.js';
 
 console.log(dataAll);
 console.log(dataCategory);
 const categories = getCategoriesFromData();
-const leafletMap = new LeafletMap('mapid', 50.318, 3.51, 13, dataAll, categories, dataCategory);
+const leafletMap = new LeafletMap('mapid', 50.318, 3.51, 13, dataAll, categories, dataCategory, dataCity);
 leafletMap.initializeMap();
 
 // LayerMap Values
@@ -27,7 +28,8 @@ const mapLayerOptions = {
 
 leafletMap.initializeTileLayer(mapURI, mapLayerOptions);
 leafletMap.initializeCustomMarkerIcon();
-leafletMap.initializeCustomMarkers(dataMarker);
-leafletMap.initializeClusterGroup();
-leafletMap.initializePolygonLayer(dataZone);
+// leafletMap.initializeCustomMarkers(dataMarker);
+// leafletMap.initializeClusterGroup();
+// leafletMap.initializePolygonLayer(dataZone);
 leafletMap.initializeCommand();
+leafletMap.filter();
