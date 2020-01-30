@@ -53,3 +53,9 @@ https://www.sitepoint.com/understanding-es6-modules/
 ## Fusion de tableaux
 
 Utiliser le nouvel opérateur spread :  https://howchoo.com/g/mzbmyzi2zda/how-to-merge-two-arrays-in-javascript 
+
+
+
+## Hardcopy d'un objet
+
+Utiliser l'opérateur spread

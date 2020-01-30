@@ -6,7 +6,9 @@ export class LeafletMap {
     this.zoom = zoom;
     this.dataset = dataset;
     this.categories = categories;
-    this.map = {};
+    this.map = {}; // leaflet map object
+    this.markers = {}; // contains all marker layers
+    this.layers = []; // contains all marker layers
   }
 
   // Init map view
@@ -104,7 +106,7 @@ export class LeafletMap {
 
     console.log(this.categories);
 
-    const context = this;
+    // const context = this;
     this.categories.forEach(category => {
       document.getElementById(`cb-${category}`).addEventListener(
         'click',
@@ -127,21 +129,56 @@ export class LeafletMap {
   }
 
   displayMarkers(category) {
-    console.log('display' + category);
+    console.log('display ' + category);
+    this.markers.category = this.getGeoJsonFeaturesByCategory(category);
+    const context = this;
+    // let icon = '/sandbox/images/icon/automotive.png';
+    // console.log(category == 'laboratoire');
+    // console.log('laboratoire');
+    let icon;
+    if (category == 'laboratoire') {
+      icon = '/sandbox/images/icon/science.png';
+    } else if (category == 'formation') {
+      icon = '/sandbox/images/icon/schools.png';
+    } else if (category == 'entreprise') {
+      icon = '/sandbox/images/icon/engineering.png';
+    }
+
+    const iconMarker = L.icon({
+      iconUrl: icon,
+      iconSize: [33, 44]
+    });
+
+    this.layers[category] = L.geoJson(this.markers.category, {
+      pointToLayer: (feature, latlng) => {
+        const marker = L.marker(latlng, { icon: iconMarker });
+        marker.bindPopup(feature.properties.name);
+        return marker;
+      }
+    });
+
+    this.layers[category].addTo(this.map);
   }
 
   hideMarkers(category) {
-    console.log('hide' + category);
+    console.log('hide ' + category);
+    this.map.removeLayer(this.layers[category]);
   }
 
-  // if (cat == 1) {
-  //   if (checked) displayLabMarkers();
-  //   else hideLabMarkers();
-  // } else if (cat == 2) {
-  //   if (checked) displayCompanyMarkers();
-  //   else hideCompanyMarkers();
-  // } else if (cat == 3) {
-  //   if (checked) displayEducationMarkers();
-  //   else hideEducationMarkers();
-  // }
+  getGeoJsonFeaturesByCategory(category, fullGeoJson = true) {
+    const filteredData = { ...this.dataset };
+    // console.log(filteredData);
+    // remove features that don't match the category
+    filteredData.features = filteredData.features.filter(feature => feature.properties.category === category);
+
+    // return full geoJson data format or array with features
+    return fullGeoJson ? filteredData : filteredData.features;
+  }
+
+  getGeoJsonObjectFormat() {
+    return (data = {
+      type: 'FeatureCollection',
+      features: []
+    });
+  }
 }
