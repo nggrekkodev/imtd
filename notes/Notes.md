@@ -1,8 +1,12 @@
-# +/-
+# A discuter
 
 Présenter : 
 
 - Les différentes couches/cartes :  https://leaflet-extras.github.io/leaflet-providers/preview/ 
+
+
+
+# Modèle de données
 
 
 
@@ -59,3 +63,9 @@ Utiliser le nouvel opérateur spread :  https://howchoo.com/g/mzbmyzi2zda/how-to
 ## Hardcopy d'un objet
 
 Utiliser l'opérateur spread
+
+
+
+## Accéder à 'this' en arrow function avec un event handler
+
+ https://medium.com/@photokandy/til-you-can-pass-an-object-instead-of-a-function-to-addeventlistener-7838a3c4ec62 

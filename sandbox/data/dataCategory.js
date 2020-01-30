@@ -11,14 +11,14 @@ export const getCategoriesFromData = () => {
 export const dataCategory = [
   {
     id: 'lab',
-    name: 'Labo'
+    name: 'laboratoire'
   },
   {
     id: 'company',
-    name: 'Entreprise'
+    name: 'entreprise'
   },
   {
     id: 'education',
-    name: 'Formation'
+    name: 'formation'
   }
 ];
