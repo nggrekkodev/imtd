@@ -11,6 +11,32 @@
 
 
 
+# Modèle de l'application
+
+
+
+## Client - Frontend - Angular 8
+
+
+
+## Server - Backend - NodeJS - Express
+
+
+
+## Database - Mongo
+
+- Faire le modèle pour l'authentification
+
+
+
+- Nécessite le modèle de données pour établir le schéma des données
+
+  
+
+
+
+
+
 # Ressources
 
 Leaflet Documentation :  https://leafletjs.com/reference-1.6.0.html
