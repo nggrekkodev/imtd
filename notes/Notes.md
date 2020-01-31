@@ -17,6 +17,8 @@ Leaflet Documentation :  https://leafletjs.com/reference-1.6.0.html
 
 Leaflet geojson :  https://leafletjs.com/reference-1.3.0.html#geojson 
 
+Leaflet Angular :  https://alligator.io/angular/angular-and-leaflet/ 
+
 Layers :  https://leaflet-extras.github.io/leaflet-providers/preview/ 
 
 Tuto :  https://maptimeboston.github.io/leaflet-intro/ 
@@ -80,3 +82,9 @@ Utiliser l'opérateur spread
 ## Calcul de distance entre deux coordonnées
 
  https://www.geodatasource.com/developers/javascript 
+
+
+
+## Power shell n'execute aucune commande Angular 
+
+ https://stackoverflow.com/questions/58032631/why-powershell-does-not-run-angular-commands 
