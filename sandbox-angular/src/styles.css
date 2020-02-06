@@ -21,6 +21,10 @@
   transition: stroke-dashoffset 0.3s ease-out, stroke-opacity 0.3s ease-in;
 }
 
+body {
+  background-color: #f8f9fa;
+}
+
 .command {
   padding: 4px 6px;
   background: white;
