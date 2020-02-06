@@ -1,10 +1,10 @@
 import * as L from "leaflet";
 
 export class LeafletMap {
-  constructor(mapHtmlId, lat, lon, zoom, dataset, categories) {
-    this.mapHtmlId = mapHtmlId;
-    this.lat = lat;
-    this.lon = lon;
+  constructor(htmlElementID, latitude, longitude, zoom, dataset, categories) {
+    this.htmlElementID = htmlElementID;
+    this.latitude = latitude;
+    this.longitude = longitude;
     this.zoom = zoom;
     this.dataset = dataset;
     this.categories = categories;
@@ -17,7 +17,10 @@ export class LeafletMap {
 
   // Initialize map object, set view and map events
   initializeMap() {
-    this.map = L.map(this.mapHtmlId).setView([this.lat, this.lon], this.zoom);
+    this.map = L.map(this.htmlElementID).setView(
+      [this.latitude, this.longitude],
+      this.zoom
+    );
     this.map.doubleClickZoom.disable();
     this.map.on("click", e => {
       // console.log("clicked !");
@@ -42,8 +45,10 @@ export class LeafletMap {
   initializeCustomMarkers(data) {
     const context = this;
     this.customMarkers = L.geoJson(data, {
-      pointToLayer: (feature, latlng) => {
-        const marker = L.marker(latlng, { icon: context.customMarkerIcon });
+      pointToLayer: (feature, latitudeLongitude) => {
+        const marker = L.marker(latitudeLongitude, {
+          icon: context.customMarkerIcon
+        });
         marker.bindPopup(feature.properties.name);
         return marker;
       }
@@ -72,7 +77,7 @@ export class LeafletMap {
     const filteredData = this.filter();
 
     this.layers = L.geoJson(filteredData, {
-      pointToLayer: (feature, latlng) => {
+      pointToLayer: (feature, latitudeLongitude) => {
         // default icon
         let icon = "./assets/images/icons/astrology.png";
 
@@ -91,7 +96,7 @@ export class LeafletMap {
         });
 
         // create marker with properties and events
-        const marker = L.marker(latlng, { icon: iconMarker });
+        const marker = L.marker(latitudeLongitude, { icon: iconMarker });
         marker.bindPopup(feature.properties.name);
         marker.on("mouseover", function(e) {
           this.openPopup();
@@ -200,8 +205,8 @@ export class LeafletMap {
   // initializePolygonLayer(data) {
   //   // const context = this;
   //   this.polygonLayer = L.geoJson(data, {
-  //     pointToLayer: (feature, latlng) => {
-  //       let marker = L.marker(latlng, { icon: context.customMarkerIcon });
+  //     pointToLayer: (feature, latitudeLongitude) => {
+  //       let marker = L.marker(latitudeLongitude, { icon: context.customMarkerIcon });
   //       marker.bindPopup(feature.properties.name);
   //       return marker;
   //     },
