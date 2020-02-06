@@ -1,0 +1,28 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [3.508846, 50.323208]
+      },
+      "properties": {
+        "name": "Labo 1",
+        "id": "Labo 1"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 2,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [3.507652, 50.322324]
+      },
+      "properties": {
+        "name": "Labo 2",
+        "id": "Labo 2"
+      }
+    }
+  ]
+}

@@ -1,9 +1,10 @@
 /**
  * IMPORT HARD DATA
  */
-import { dataMarker } from './data/dataMarker.js';
-import { dataZone } from './data/dataZone.js';
-import { dataAll, dataLab, dataCompany, dataEducation } from './data/data.js';
+// import { dataMarker } from './data/dataMarker.js';
+// import { dataZone } from './data/dataZone.js';
+// import { dataAll, dataLab, dataCompany, dataEducation } from './data/data.js';
+import { dataAll } from './data/data.js';
 import { dataCategory, getCategoriesFromData } from './data/dataCategory.js';
 import { dataCity } from './data/dataCity.js';
 import { LeafletMap } from './model/LeafletMap.js';
@@ -28,8 +29,8 @@ const mapLayerOptions = {
 
 leafletMap.initializeTileLayer(mapURI, mapLayerOptions);
 leafletMap.initializeCustomMarkerIcon();
+leafletMap.initializeCommand();
+leafletMap.filter();
 // leafletMap.initializeCustomMarkers(dataMarker);
 // leafletMap.initializeClusterGroup();
 // leafletMap.initializePolygonLayer(dataZone);
-leafletMap.initializeCommand();
-leafletMap.filter();
