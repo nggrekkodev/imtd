@@ -1,12 +1,6 @@
 import { Component, OnInit, AfterViewInit } from "@angular/core";
-import * as L from "leaflet";
 
-import { dataAll } from "./../../data/data.js";
-import {
-  dataCategory,
-  getCategoriesFromData
-} from "./../../data/dataCategory.js";
-import { dataCity } from "./../../data/dataCity.js";
+import { dataAll as dataset, categories } from "./../../data/data.js";
 import { LeafletMap } from "./../../models/LeafletMap.js";
 
 @Component({
@@ -15,25 +9,26 @@ import { LeafletMap } from "./../../models/LeafletMap.js";
   styleUrls: ["./leaflet-map.component.css"]
 })
 export class LeafletMapComponent implements OnInit, AfterViewInit {
+  // Custom leaflet map class
   private leafletMap: LeafletMap;
+  private categories;
+
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.categories = categories;
+  }
 
   ngAfterViewInit(): void {
-    // this.initMap();
-    const categories = getCategoriesFromData();
-    const leafletMap = new LeafletMap(
+    this.leafletMap = new LeafletMap(
       "map",
       50.318,
       3.51,
       13,
-      dataAll,
-      categories,
-      dataCategory,
-      dataCity
+      dataset,
+      categories
     );
-    leafletMap.initializeMap();
+    this.leafletMap.initializeMap();
 
     // LayerMap Values
     const mapURI =
@@ -47,9 +42,16 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
       id: "mapbox/streets-v11"
     };
 
-    leafletMap.initializeTileLayer(mapURI, mapLayerOptions);
-    leafletMap.initializeCustomMarkerIcon();
-    leafletMap.initializeCommand();
-    leafletMap.filter();
+    this.leafletMap.initializeTileLayer(mapURI, mapLayerOptions);
+    this.leafletMap.initializeCustomMarkerIcon();
+    // this.leafletMap.initializeCommand();
+    this.categories.forEach(category =>
+      this.leafletMap.addSelectedCategory(category.name)
+    );
+    this.leafletMap.filter2();
+  }
+
+  onChangeInput(event) {
+    console.log(event);
   }
 }
