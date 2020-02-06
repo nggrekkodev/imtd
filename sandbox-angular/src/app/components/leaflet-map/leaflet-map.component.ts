@@ -48,10 +48,24 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
     this.categories.forEach(category =>
       this.leafletMap.addSelectedCategory(category.name)
     );
-    this.leafletMap.filter2();
+    this.leafletMap.displayMarkers();
   }
 
   onChangeInput(event) {
-    console.log(event);
+    this.leafletMap.setSearchedName(event.target.value);
+    this.leafletMap.displayMarkers();
+  }
+
+  onClickCheckbox(event) {
+    // console.log(event.target);
+    // if (event.target.checked) {
+    //   this.leafletMap.addSelectedCategory(event.target.value);
+    // } else {
+    //   this.leafletMap.removeSelectedCategory(event.target.value);
+    // }
+    event.target.checked
+      ? this.leafletMap.addSelectedCategory(event.target.value)
+      : this.leafletMap.removeSelectedCategory(event.target.value);
+    this.leafletMap.displayMarkers();
   }
 }

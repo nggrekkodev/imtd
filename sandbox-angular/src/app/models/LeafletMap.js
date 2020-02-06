@@ -10,8 +10,9 @@ export class LeafletMap {
     this.categories = categories;
     this.map = {}; // leaflet map object
     this.layers = {}; // contains all marker layers
-    // console.log(this.categories);
+
     this.selectedCategories = [];
+    this.searchedName = "";
   }
 
   // Initialize map object, set view and map events
@@ -50,76 +51,6 @@ export class LeafletMap {
     // this.customMarkers.addTo(this.map);
   }
 
-  // Initialize a cluster group
-  initializeClusterGroup() {
-    this.cluster = L.markerClusterGroup();
-    this.cluster.addLayer(this.customMarkers);
-    this.map.addLayer(this.cluster);
-  }
-
-  // Initialize the filter control panel
-  initializeCommand() {
-    // Create the html control panel and add it to the map
-    this.command = L.control({ position: "topright" });
-    this.command.onAdd = () => {
-      let div = L.DomUtil.create("div", "command");
-      div.innerHTML +=
-        '<div style="text-align:center;"><span style="font-size:18px;">Filtre</span><br /></div>';
-      // console.log(this.categories);
-      this.categories.forEach(category => {
-        div.innerHTML += `<form><input id='cb-${category.name}' type="checkbox" checked/> ${category.name}</form>`;
-      });
-
-      div.innerHTML += `<input id='searchBar' type="text" name="searchBar" value=""><br/>`;
-
-      return div;
-    };
-    this.command.addTo(this.map);
-
-    // Add events to the filter control panel
-    const htmlCommand = document.querySelector(".command");
-
-    // Toggle dragging when using filter
-    htmlCommand.addEventListener(
-      "mouseenter",
-      () => this.map.dragging.disable(),
-      false
-    );
-    htmlCommand.addEventListener(
-      "mouseleave",
-      () => this.map.dragging.enable(),
-      false
-    );
-
-    this.categories.forEach(category => {
-      document
-        .getElementById(`cb-${category.name}`)
-        .addEventListener("click", () => this.filter(), false);
-    });
-    const searchBar = document.querySelector("#searchBar");
-    searchBar.addEventListener("input", () => this.filter(), false); // this == context
-  }
-
-  filter() {
-    this.inputText = document.querySelector("#searchBar").value;
-
-    // Get Selected categories from control panel in array
-    this.selectedCategories = [];
-    this.categories.forEach(category => {
-      if (document.querySelector(`#cb-${category.name}`).checked) {
-        this.selectedCategories.push(category.name);
-      }
-    });
-
-    this.displayMarkers();
-  }
-
-  filter2() {
-    this.inputText = "";
-    // console.log(this.selectedCategories);
-    this.displayMarkers();
-  }
-
   addSelectedCategory(category) {
     this.selectedCategories.push(category);
   }
@@ -130,11 +61,15 @@ export class LeafletMap {
     );
   }
 
+  setSearchedName(searchedName) {
+    this.searchedName = searchedName;
+  }
+
   displayMarkers() {
     // remove previous in order to display the new one
     this.map.removeLayer(this.layers);
 
-    const filteredData = this.getGeoJsonFeaturesByFilter();
+    const filteredData = this.filter();
 
     this.layers = L.geoJson(filteredData, {
       pointToLayer: (feature, latlng) => {
@@ -161,9 +96,9 @@ export class LeafletMap {
         marker.on("mouseover", function(e) {
           this.openPopup();
         });
-        marker.on("mouseout", function(e) {
-          this.closePopup();
-        });
+        // marker.on("mouseout", function(e) {
+        //   this.closePopup();
+        // });
         return marker;
       }
     });
@@ -171,24 +106,7 @@ export class LeafletMap {
     this.layers.addTo(this.map);
   }
 
-  // hideMarkers(category) {
-  //   console.log("hide " + category);
-  //   this.map.removeLayer(this.layers[category]);
-  // }
-
-  getGeoJsonFeaturesByCategory(category, fullGeoJson = true) {
-    const filteredData = { ...this.dataset };
-
-    // keep features that matches the category
-    filteredData.features = filteredData.features.filter(
-      feature => feature.properties.category === category
-    );
-
-    // return full geoJson data format or array with features
-    return fullGeoJson ? filteredData : filteredData.features;
-  }
-
-  getGeoJsonFeaturesByFilter(fullGeoJson = true) {
+  filter(fullGeoJson = true) {
     const filteredData = { ...this.dataset };
 
     // filter by category
@@ -200,19 +118,83 @@ export class LeafletMap {
     filteredData.features = filteredData.features.filter(feature =>
       feature.properties.name
         .toLowerCase()
-        .includes(this.inputText.toLowerCase())
+        .includes(this.searchedName.toLowerCase())
     );
 
     // return full geoJson data format or array with features
     return fullGeoJson ? filteredData : filteredData.features;
   }
 
-  getGeoJsonObjectFormat(fullGeoJson = true) {
+  getGeoJsonObjectFormat() {
     return (data = {
       type: "FeatureCollection",
       features: []
     });
   }
+
+  // Initialize a cluster group
+  // initializeClusterGroup() {
+  //   this.cluster = L.markerClusterGroup();
+  //   this.cluster.addLayer(this.customMarkers);
+  //   this.map.addLayer(this.cluster);
+  // }
+
+  // Initialize the filter control panel
+  // initializeCommand() {
+  //   // Create the html control panel and add it to the map
+  //   this.command = L.control({ position: "topright" });
+  //   this.command.onAdd = () => {
+  //     let div = L.DomUtil.create("div", "command");
+  //     div.innerHTML +=
+  //       '<div style="text-align:center;"><span style="font-size:18px;">Filtre</span><br /></div>';
+  //     // console.log(this.categories);
+  //     this.categories.forEach(category => {
+  //       div.innerHTML += `<form><input id='cb-${category.name}' type="checkbox" checked/> ${category.name}</form>`;
+  //     });
+
+  //     div.innerHTML += `<input id='searchBar' type="text" name="searchBar" value=""><br/>`;
+
+  //     return div;
+  //   };
+  //   this.command.addTo(this.map);
+
+  //   // Add events to the filter control panel
+  //   const htmlCommand = document.querySelector(".command");
+
+  //   // Toggle dragging when using filter
+  //   htmlCommand.addEventListener(
+  //     "mouseenter",
+  //     () => this.map.dragging.disable(),
+  //     false
+  //   );
+  //   htmlCommand.addEventListener(
+  //     "mouseleave",
+  //     () => this.map.dragging.enable(),
+  //     false
+  //   );
+
+  //   this.categories.forEach(category => {
+  //     document
+  //       .getElementById(`cb-${category.name}`)
+  //       .addEventListener("click", () => this.filter(), false);
+  //   });
+  //   const searchBar = document.querySelector("#searchBar");
+  //   searchBar.addEventListener("input", () => this.filter(), false); // this == context
+  // }
+
+  // filter() {
+  //   this.inputText = document.querySelector("#searchBar").value;
+
+  //   // Get Selected categories from control panel in array
+  //   this.selectedCategories = [];
+  //   this.categories.forEach(category => {
+  //     if (document.querySelector(`#cb-${category.name}`).checked) {
+  //       this.selectedCategories.push(category.name);
+  //     }
+  //   });
+
+  //   this.displayMarkers();
+  // }
 
   // Initialize a custom polygon layer -> TESTING
   // initializePolygonLayer(data) {
@@ -251,5 +233,22 @@ export class LeafletMap {
   //     }
   //   });
   //   this.polygonLayer.addTo(this.map);
+  // }
+
+  // hideMarkers(category) {
+  //   console.log("hide " + category);
+  //   this.map.removeLayer(this.layers[category]);
+  // }
+
+  // getGeoJsonFeaturesByCategory(category, fullGeoJson = true) {
+  //   const filteredData = { ...this.dataset };
+
+  //   // keep features that matches the category
+  //   filteredData.features = filteredData.features.filter(
+  //     feature => feature.properties.category === category
+  //   );
+
+  //   // return full geoJson data format or array with features
+  //   return fullGeoJson ? filteredData : filteredData.features;
   // }
 }

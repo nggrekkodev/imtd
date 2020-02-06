@@ -1,7 +1,7 @@
 /**
  * DATA
  */
-export const dataLab = {
+export const dataLaboratoire = {
   type: "FeatureCollection",
   features: [
     {
@@ -43,7 +43,7 @@ export const dataLab = {
   ]
 };
 
-export const dataEducation = {
+export const dataFormation = {
   type: "FeatureCollection",
   features: [
     {
@@ -73,7 +73,7 @@ export const dataEducation = {
   ]
 };
 
-export const dataCompany = {
+export const dataEntreprise = {
   type: "FeatureCollection",
   features: [
     {
@@ -103,34 +103,54 @@ export const dataCompany = {
   ]
 };
 
+export const dataEducation = {
+  type: "FeatureCollection",
+  features: [
+    {
+      type: "Feature",
+      geometry: {
+        type: "Point",
+        coordinates: [3.507483, 50.327692]
+      },
+      properties: {
+        name: "Education 1",
+        id: "1",
+        category: "education"
+      }
+    }
+  ]
+};
+
 export const dataAll = {
   type: "FeatureCollection",
   features: [
-    ...dataLab.features,
-    ...dataEducation.features,
-    ...dataCompany.features
+    ...dataLaboratoire.features,
+    ...dataFormation.features,
+    ...dataEntreprise.features,
+    ...dataEducation.features
   ]
 };
 
 export const interestPoints = {
   type: "FeatureCollection",
   features: [
-    ...dataLab.features,
-    ...dataEducation.features,
-    ...dataCompany.features
+    ...dataLaboratoire.features,
+    ...dataFormation.features,
+    ...dataEntreprise.features,
+    ...dataEducation.features
   ]
 };
 
 /**
  * CATEGORIES
  */
-export const getCategoriesFromData = () => {
-  const categories = new Set();
-  dataAll.features.forEach(feature => {
-    categories.add(feature.properties.category);
-  });
-  return Array.from(categories);
-};
+// export const getCategoriesFromData = () => {
+//   const categories = new Set();
+//   dataAll.features.forEach(feature => {
+//     categories.add(feature.properties.category);
+//   });
+//   return Array.from(categories);
+// };
 
 export const categories = [
   // export const dataCategories = [
@@ -151,6 +171,12 @@ export const categories = [
     name: "formation",
     iconFilePath: "./assets/images/icons/schools.png",
     iconFileName: "schools.png"
+  },
+  {
+    id: "education",
+    name: "education",
+    iconFilePath: "./assets/images/icons/education.png",
+    iconFileName: "education.png"
   }
 ];
 
