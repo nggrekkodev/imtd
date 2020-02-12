@@ -44,7 +44,6 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
 
     this.leafletMap.initializeTileLayer(mapURI, mapLayerOptions);
     this.leafletMap.initializeCustomMarkerIcon();
-    // this.leafletMap.initializeCommand();
     this.categories.forEach(category =>
       this.leafletMap.addSelectedCategory(category.name)
     );
@@ -57,12 +56,6 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
   }
 
   onClickCheckbox(event) {
-    // console.log(event.target);
-    // if (event.target.checked) {
-    //   this.leafletMap.addSelectedCategory(event.target.value);
-    // } else {
-    //   this.leafletMap.removeSelectedCategory(event.target.value);
-    // }
     event.target.checked
       ? this.leafletMap.addSelectedCategory(event.target.value)
       : this.leafletMap.removeSelectedCategory(event.target.value);
